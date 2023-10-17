@@ -15,12 +15,14 @@ class ProductsController extends Controller
         $out = $connectionManager->stream('/products', 'GET', array(), array(), true);
         $products = $out["dt"]["data"]["data"];
 
-        // $search = $request->search;
+        $search = $request->search;
 
-        // if($search){
-        //     $products = Products::where('product_name','like',"%".$search."%")
-        //     ->paginate();
-        // }
+        if($search){
+            $data = array("search" => $search);
+
+            $products = $connectionManager->stream('/products/search', 'POST', $data, array(), true);
+            $products = $products["dt"]["data"];
+        }
 
         return view('products.index', compact('products'));
     }

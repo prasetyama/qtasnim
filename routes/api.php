@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,7 @@ Route::post('/products', [ProductsController::class, 'add'])->name('products.add
 Route::get('/products/{id}', [ProductsController::class, 'detail'])->name('products.detail');
 Route::patch('/products/{id}', [ProductsController::class, 'update'])->name('products.update');
 Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products.delete');
+
+Route::post('/products/search', [ProductsController::class, 'search'])->name('products.search');
+
+Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');

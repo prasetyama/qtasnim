@@ -91,4 +91,16 @@ class ProductsController extends Controller
             'success' => true
         ], 200);
     }
+
+    public function search(Request $request){
+
+        $search = $request->search;
+
+        $products = Products::where('product_name', 'like', "%".$search."%")->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $products
+        ], 200);
+    }
 }
