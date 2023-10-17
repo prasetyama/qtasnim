@@ -29,11 +29,39 @@
                     </div>
             </form>
             </div>
-                <div class=col-md-2>
-                    <div class="lead">
-                        <a href="" class="btn btn-primary btn-sm float-right">Add Orders</a>
+            <form method="GET" action="/orders">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="start_book" class="form-label">From Date</label>
+                        <input value="{{ request()->get('from') }}" 
+                            id="start-datepicker"
+                            type="text" 
+                            class="form-control date" 
+                            name="from" 
+                            placeholder="From Date" required>
+
+                        @if ($errors->has('from'))
+                            <span class="text-danger text-left">{{ $errors->first('from') }}</span>
+                        @endif
+                    </div>
+                    <div class="col-md-5">
+                        <label for="end_book" class="form-label">To Date</label>
+                        <input value="{{ request()->get('to') }}" 
+                            id="end-datepicker"
+                            type="text" 
+                            class="form-control date"  
+                            name="to" 
+                            placeholder="To Date" required>
+
+                        @if ($errors->has('to'))
+                            <span class="text-danger text-left">{{ $errors->first('to') }}</span>
+                        @endif
+                    </div>
+                    <div class="col-md-2" style="margin-top: 30px;">
+                        <button type="submit" class="form-control btn btn-primary">Search</button>
                     </div>
                 </div>
+            </form>
             </div>
         
         <div class="mt-2">

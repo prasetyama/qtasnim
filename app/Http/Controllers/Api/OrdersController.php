@@ -9,11 +9,21 @@ use App\Models\Products;
 
 class OrdersController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
+        $from = $request->from;
+        $to = $request->to;
 
         $orders = Orders::join('products', 'products.id', '=', 'orders.product_id')
             ->select('orders.*', 'products.product_name')
             ->get();
+
+        if ($from && $to){
+            $orders = Orders::join('products', 'products.id', '=', 'orders.product_id')
+                    ->select('orders.*', 'products.product_name')
+                    ->whereBetween('orders.created_at', [$from, $to])
+                    ->get();
+        }
 
         return response()->json([
             'success' => true,
