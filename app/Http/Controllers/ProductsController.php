@@ -18,7 +18,7 @@ class ProductsController extends Controller
         $search = $request->search;
         $sort = $request->sort;
 
-        if($search){
+        if($search || $sort){
             $data = array("search" => $search, 'sort' => $sort);
 
             $products = $connectionManager->stream('/products/search', 'POST', $data, array(), true);

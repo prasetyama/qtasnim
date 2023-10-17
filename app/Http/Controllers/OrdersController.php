@@ -14,12 +14,15 @@ class OrdersController extends Controller
         $out = $connectionManager->stream('/orders', 'GET', array(), array(), true);
         $orders = $out["dt"]["data"];
 
-        // $search = $request->search;
+        $search = $request->search;
+        $sort = $request->sort;
 
-        // if($search){
-        //     $products = Products::where('product_name','like',"%".$search."%")
-        //     ->paginate();
-        // }
+        if($search || $sort){
+            $data = array("search" => $search, 'sort' => $sort);
+
+            $orders = $connectionManager->stream('/orders/search', 'POST', $data, array(), true);
+            $orders = $orders["dt"]["data"];
+        }
 
         return view('orders.index', compact('orders'));
     }

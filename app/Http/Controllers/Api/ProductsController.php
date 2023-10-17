@@ -113,6 +113,10 @@ class ProductsController extends Controller
                 $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('product_name', 'asc')->get();
             } else if ($sort == "n-desc"){
                 $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('product_name', 'desc')->get();
+            } else if ($sort == "u-desc"){
+                $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('created_at', 'desc')->get();
+            } else if ($sort == "u-asc"){
+                $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('created_at', 'asc')->get();
             }
         } else {
             $products = Products::where('product_name', 'like', "%".$search."%")->get();

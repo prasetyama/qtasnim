@@ -29,3 +29,4 @@ Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('pr
 Route::post('/products/search', [ProductsController::class, 'search'])->name('products.search');
 
 Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+Route::post('/orders/search', [OrdersController::class, 'search'])->name('orders.search');
