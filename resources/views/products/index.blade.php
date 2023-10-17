@@ -5,13 +5,32 @@
     <h1 class="mb-3">Products</h1>
 
     <div class="bg-light p-4 rounded">
+        <form method="GET" action="/products" class="form-inline">
         <div class="row" style="margin-bottom: 50px">
             <div class="col-md-4">
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/products" method="GET">
-                    <input type="search" name="search" class="form-control form-control" placeholder="Search..." aria-label="Search" value="{{ request()->get('search') }}">
-                </form>
+                <input type="search" name="search" class="form-control form-control" placeholder="Search..." aria-label="Search" value="{{ request()->get('search') }}">
             </div>
-            <div class=col-md-8>
+            <div class="col-md-6">
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <select class="form-control" name="sort">
+                                <option value="">Sort</option>
+                                <option value="n-asc" {{ request()->get('sort') == 'n-asc'  ? 'selected' : ''}}>A - Z</option>
+                                <option value="n-desc" {{ request()->get('sort') == 'n-desc'  ? 'selected' : ''}}>Z - A</option>
+                                <option value="u-desc" {{ request()->get('sort') == 'u-desc'  ? 'selected' : ''}}>Recent Add</option>
+                                <option value="u-asc" {{ request()->get('sort') == 'u-asc'  ? 'selected' : ''}}>Oldest Add</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary mb-2">Go</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class=col-md-2>
                 <div class="lead">
                     <a href="{{ route('products.add') }}" class="btn btn-primary btn-sm float-right">Add Product</a>
                 </div>

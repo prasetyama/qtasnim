@@ -9,8 +9,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $products = Products::latest()->paginate(10);
+
+        $sort = $request->sort;
+
+        if ($sort){
+            if ($sort == "n-asc"){
+                $products = Products::orderBy('product_name', 'asc')->get();
+            } else if ($sort == "n-desc"){
+                $products = Products::orderBy('product_name', 'desc')->get();
+            }
+        }
 
         return response()->json([
             'success' => true,
@@ -96,7 +106,17 @@ class ProductsController extends Controller
 
         $search = $request->search;
 
-        $products = Products::where('product_name', 'like', "%".$search."%")->get();
+        $sort = $request->sort;
+
+        if ($sort){
+            if ($sort == "n-asc"){
+                $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('product_name', 'asc')->get();
+            } else if ($sort == "n-desc"){
+                $products = Products::where('product_name', 'like', "%".$search."%")->orderBy('product_name', 'desc')->get();
+            }
+        } else {
+            $products = Products::where('product_name', 'like', "%".$search."%")->get();
+        }
 
         return response()->json([
             'success' => true,
