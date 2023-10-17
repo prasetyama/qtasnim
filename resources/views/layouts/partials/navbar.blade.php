@@ -7,6 +7,7 @@
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="{{ route('products.index') }}" class="nav-link px-2 text-white">Products</a></li>
+        <li><a href="{{ route('orders.index') }}" class="nav-link px-2 text-white">Orders</a></li>
       </ul>
     </div>
   </div>

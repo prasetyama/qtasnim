@@ -25,3 +25,5 @@ Route::post('/products/add', [ProductsController::class, 'store'])->name('produc
 Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('products.edit');
 Route::post('/products/update/{id}', [ProductsController::class, 'update'])->name('products.update');
 Route::delete('/products/{id}', [ProductsController::class, 'delete'])->name('products.delete');
+
+Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
