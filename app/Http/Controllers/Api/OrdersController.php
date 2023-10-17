@@ -27,7 +27,7 @@ class OrdersController extends Controller
 
         $sort = $request->sort;
 
-        if ($sort || $search){
+        if ($sort){
             if ($sort == "n-asc"){
                 $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
                         ->select('orders.*', 'products.product_name')
