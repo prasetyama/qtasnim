@@ -13,7 +13,7 @@ class ProductsController extends Controller
     {
         $connectionManager = new ConnectionManager(env('API_URL'));
         $out = $connectionManager->stream('/products', 'GET', array(), array(), true);
-        $products = $out["dt"]["data"]["data"];
+        $products = $out["dt"]["data"];
 
         $search = $request->search;
         $sort = $request->sort;
@@ -21,7 +21,7 @@ class ProductsController extends Controller
         if($search || $sort){
             $data = array("search" => $search, 'sort' => $sort);
 
-            $products = $connectionManager->stream('/products/search', 'POST', $data, array(), true);
+            $products = $connectionManager->stream('/products', 'GET', $data, array(), true);
             $products = $products["dt"]["data"];
         }
 

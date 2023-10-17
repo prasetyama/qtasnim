@@ -11,59 +11,39 @@ class OrdersController extends Controller
 {
     public function index(Request $request){
 
+        $search = $request->search;
+        $sort = $request->sort;
         $from = $request->from;
         $to = $request->to;
 
         $orders = Orders::join('products', 'products.id', '=', 'orders.product_id')
-            ->select('orders.*', 'products.product_name')
-            ->get();
+            ->select('orders.*', 'products.product_name');
 
-        if ($from && $to){
-            $orders = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                    ->select('orders.*', 'products.product_name')
-                    ->whereBetween('orders.created_at', [$from, $to])
-                    ->get();
+        if ($search){
+            $orders = $orders->where('products.product_name', 'like', "%".$search."%");
         }
+
+        if ($sort){
+            if ($sort == "n-asc"){
+                $orders = $orders->orderBy('products.product_name', 'asc');
+            } else if ($sort == "n-desc"){
+                $orders = $orders->orderBy('products.product_name', 'desc');
+            } else if ($sort == "u-desc"){
+                $orders = $orders->orderBy('orders.created_at', 'desc');
+            } else if ($sort == "u-asc"){
+                $orders = $orders->orderBy('orders.created_at', 'asc');
+            }
+        }
+
+        if ($from || $to){
+            $orders = $orders->whereBetween('orders.created_at', [$from, $to]);
+        }
+
+        $orders = $orders->get();
 
         return response()->json([
             'success' => true,
             'data' => $orders
-        ], 200);
-    }
-
-    public function search(Request $request){
-
-        $search = $request->search;
-
-        $sort = $request->sort;
-
-        if ($sort){
-            if ($sort == "n-asc"){
-                $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                        ->select('orders.*', 'products.product_name')
-                        ->where('products.product_name', 'like', "%".$search."%")->orderBy('products.product_name', 'asc')->get();
-            } else if ($sort == "n-desc"){
-                $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                        ->select('orders.*', 'products.product_name')
-                        ->where('products.product_name', 'like', "%".$search."%")->orderBy('products.product_name', 'desc')->get();
-            } else if ($sort == "u-desc"){
-                $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                            ->select('orders.*', 'products.product_name')
-                            ->where('products.product_name', 'like', "%".$search."%")->orderBy('orders.created_at', 'desc')->get();
-            } else if ($sort == "u-asc"){
-                $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                            ->select('orders.*', 'products.product_name')
-                            ->where('products.product_name', 'like', "%".$search."%")->orderBy('orders.created_at', 'asc')->get();
-            }
-        } else {
-            $products = Orders::join('products', 'products.id', '=', 'orders.product_id')
-                    ->select('orders.*', 'products.product_name')
-                    ->where('products.product_name', 'like', "%".$search."%")->get();
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $products
         ], 200);
     }
 }

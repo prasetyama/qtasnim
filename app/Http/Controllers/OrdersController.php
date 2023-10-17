@@ -20,15 +20,8 @@ class OrdersController extends Controller
         $from = $request->from;
         $to = $request->to;
 
-        if($search || $sort){
-            $data = array("search" => $search, 'sort' => $sort);
-
-            $orders = $connectionManager->stream('/orders/search', 'POST', $data, array(), true);
-            $orders = $orders["dt"]["data"];
-        }
-
-        if ($from && $to){
-            $search_param = array("from" => $from, 'to' => $to);
+        if($search || $sort || $from || $to){
+            $search_param = array("search" => $search, 'sort' => $sort, 'from' => $from, 'to' => $to);
 
             $orders = $connectionManager->stream('/orders', 'GET', $search_param, array(), true);
             $orders = $orders["dt"]["data"];
