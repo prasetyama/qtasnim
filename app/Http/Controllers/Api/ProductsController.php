@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
     public function index(Request $request){
-        $products = Products::latest();
+        $products = Products::join('orders', 'orders.product_id', '=', 'products.id')
+                    ->select(DB::raw('SUM(quantity) as total_sales'), 'products.*')
+                    ->groupBy('orders.product_id');
 
         $sort = $request->sort;
         $search = $request->search;
@@ -24,6 +27,10 @@ class ProductsController extends Controller
                 $products = $products->orderBy('created_at', 'desc');
             } else if ($sort == "u-asc"){
                 $products = $products->orderBy('created_at', 'asc');
+            } else if ($sort == 'sales-asc'){
+                $products = $products->orderBy('total_sales', 'asc');
+            } else if ($sort == 'sales-desc'){
+                $products = $products->orderBy('total_sales', 'desc');
             }
         }
 

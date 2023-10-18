@@ -21,6 +21,8 @@
                                 <option value="n-desc" {{ request()->get('sort') == 'n-desc'  ? 'selected' : ''}}>Z - A</option>
                                 <option value="u-desc" {{ request()->get('sort') == 'u-desc'  ? 'selected' : ''}}>Recent Add</option>
                                 <option value="u-asc" {{ request()->get('sort') == 'u-asc'  ? 'selected' : ''}}>Oldest Add</option>
+                                <option value="sales-desc" {{ request()->get('sort') == 'sales-desc'  ? 'selected' : ''}}>Highest Sales</option>
+                                <option value="sales-asc" {{ request()->get('sort') == 'sales-asc'  ? 'selected' : ''}}>Lowest Sales</option>
                             </select>
                         </div>
                     </div>
@@ -47,6 +49,7 @@
              <th>Product Name</th>
              <th>Product Type</th>
              <th>Stock</th>
+             <th>Total Sales</th>
              <th width="3%" colspan="3">Action</th>
           </tr>
             @foreach ($products as $item)
@@ -55,6 +58,7 @@
                 <td>{{ $item['product_name'] }}</td>
                 <td>{{ $item['product_type'] }}</td>
                 <td>{{ $item['stock'] }}</td>
+                <td>{{ $item['total_sales']}}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="{{ route('products.edit', $item['id']) }}">Edit</a>
                 </td>
